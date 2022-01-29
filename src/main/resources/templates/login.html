@@ -8,6 +8,7 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
         </head>
     <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <div class="d-flex justify-content-center alert-primary mt-5">
     <form th:action="@{/login}" method="post">
 
@@ -23,13 +24,12 @@
             Неверное имя или пароль.
         </div>
         <div th:if="${param.logout}">
-            Вы уже вошли.
+            Вы успешно вышли из системы.
         </div>
-            <div><input type="submit" value="Войти" class="btn btn-primary" /></div>
+            <div><input type="submit" value="Войти" class="btn btn-primary" /></div><br>
              <a th:href="'/reg'" class="btn btn-primary" >Зарегистрироваться</a>
     </div>
 
-        <div class="btn"><a href="/reg"></a></div>
     </form>
     </div>
 

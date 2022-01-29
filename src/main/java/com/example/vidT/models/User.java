@@ -1,10 +1,13 @@
 package com.example.vidT.models;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "userM")
@@ -14,6 +17,7 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String password2;
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -25,6 +29,29 @@ public class User implements UserDetails {
 
     public Set<Video> getVideos() {
         return videos;
+    }
+
+    public User() {
+    }
+
+    public String getPassword2() {
+        return password2;
+    }
+
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", password2='" + password2 + '\'' +
+                ", active=" + active +
+                ", roles=" + roles +
+                '}';
     }
 
     public void setVideos(Set<Video> videos) {
