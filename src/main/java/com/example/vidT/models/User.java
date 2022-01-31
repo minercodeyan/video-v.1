@@ -17,6 +17,8 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String email;
+    @Transient
     private String password2;
     private boolean active;
 
@@ -53,6 +55,15 @@ public class User implements UserDetails {
                 ", roles=" + roles +
                 '}';
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 
     public void setVideos(Set<Video> videos) {
         this.videos = videos;

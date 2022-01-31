@@ -22,9 +22,12 @@
             <div class="form-group">
               <label>  <input type="password" name="password2" th:value="*{password2}"placeholder="подтверждение пароля" class="form-control"/> </label>
             </div>
+        <div class="form-group">
+            <label>  Email: <input type="email" name="email" th:value="*{email}"placeholder="lol@lol" class="form-control"/> </label>
+        </div>
         <div th:if="${massage}!=0" th:text="${massage}">
         </div>
-            <div th:if="CheckPasswordMatch!=0"><input type="submit" value="Зарегестрироваться" class="btn btn-primary text-center" /></div>
+            <div th:if="CheckPasswordMatch!=0"><input type="submit" value="Зарегистрироваться" class="btn btn-primary text-center" /></div>
     </div>
     </form>
     </div>

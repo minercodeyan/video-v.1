@@ -28,6 +28,9 @@ public class Video {
     public String getAuthorName(){
         return author != null ? author.getUsername() : "<none>";
     }
+
+
+
     public User getAuthor() {
         return author;
     }
@@ -75,4 +78,5 @@ public class Video {
     public void setTimer(int timer) {
         this.timer = timer;
     }
+
 }

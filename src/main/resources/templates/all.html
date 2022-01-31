@@ -12,11 +12,11 @@
    <p><h1 class="text-center text-primary">Главная</h1> </p>
         <form th:action="filter" method="post" class="form-control"><input type="text" name="filter"/>
         <button type="submit" class="btn">Найти</button>
-    <div th:each="el : ${videos}" class="alert alert-info text-center ">
-        <h3 th:text="${el.filename}"/>
-        <b><p th:text="${el.authorName}" /></b>
-        <a th:href="'/all/'+${el.id}">прочитать</a>
-    </div>
+            <div class="alert alert-info m-2" th:each="el : ${videos}">
+                <div class="text-center"><h3 th:text="${el.filename}"/></div>
+                <div class="text-center "><p th:text="${el.authorName}" /></div>
+                <div class="text-center "><a th:href="'/all/'+${el.id}">прочитать</a></div>
+            </div>
         </form>
     <div class="mb-5">
     </div>
