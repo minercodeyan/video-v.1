@@ -46,7 +46,6 @@ public class VidController  {
                          @RequestParam int timer , Model model){
         Video post = new Video(filename,media_file_id,timer,user);
         post.setTimer1((long) new Date().getTime());
-        //post.setAuthorName()=user.getUsername();
         videoRepository.save(post);
         return "redirect:/all";
     }
@@ -57,8 +56,7 @@ public class VidController  {
         ArrayList<Video> res1 = new ArrayList<>();
         post.ifPresent(res1::add);
         model.addAttribute("post",res1);
-        Video[] pe;
-        pe = res1.toArray(new Video[res1.size()]);
+      Video[] pe = res1.toArray(new Video[res1.size()]);
         model.addAttribute("timeall",pe[0].getTimer());
         model.addAttribute("starttime",pe[0].getTimer1());
         long nowtime = (long) new Date().getTime();

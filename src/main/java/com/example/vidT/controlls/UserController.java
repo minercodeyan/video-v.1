@@ -1,5 +1,6 @@
 package com.example.vidT.controlls;
 
+import com.example.vidT.models.User;
 import com.example.vidT.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ public class UserController {
 
 
     @GetMapping
-    public String userList(){
+    public String userList(Model model){
+        Iterable<User> users= userRepo.findAll();
+        model.addAttribute("users", users);
         return "personalArea";
     }
 }
