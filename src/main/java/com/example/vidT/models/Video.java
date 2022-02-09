@@ -1,5 +1,9 @@
 package com.example.vidT.models;
+import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -7,10 +11,13 @@ public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotEmpty(message = "Заполните")
     private String filename;
-    private String media_file_id;
-    private int timer;
+    @NotNull(message = "Заполните")
+    @Length(max=4096, message = "Слишком длинный текст")
+    private String textm;
     private long timer1;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="user_id")
     private User author;
@@ -18,14 +25,16 @@ public class Video {
     public Video() {
     }
 
-    public Video(String filename, String media_file_id, int timer, User user) {
+
+
+    public Video(String filename, String textm, User user) {
         this.filename = filename;
-        this.media_file_id = media_file_id;
-        this.timer = timer;
+        this.textm = textm;
         this.author = user;
     }
 
     public String getAuthorName(){
+
         return author != null ? author.getUsername() : "<none>";
     }
 
@@ -55,12 +64,12 @@ public class Video {
         this.id = id;
     }
 
-    public String getMedia_file_id() {
-        return media_file_id;
+    public String getTextm() {
+        return textm;
     }
 
-    public void setMedia_file_id(String media_file_id) {
-        this.media_file_id = media_file_id;
+    public void setTextm(String textm) {
+        this.textm = textm;
     }
 
     public String getFilename() {
@@ -71,12 +80,5 @@ public class Video {
         this.filename = filename;
     }
 
-    public int getTimer() {
-        return timer;
-    }
-
-    public void setTimer(int timer) {
-        this.timer = timer;
-    }
 
 }

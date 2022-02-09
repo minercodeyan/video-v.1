@@ -1,22 +1,24 @@
 package com.example.vidT.controlls;
 import com.example.vidT.Service.EmailSenderService;
-import com.example.vidT.Service.UserService;
+import com.example.vidT.Service.TimerService;
 
 import com.example.vidT.models.User;
 import com.example.vidT.models.Video;
-
 import com.example.vidT.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
+
 
 
 @Controller
@@ -26,26 +28,32 @@ public class VidController  {
     private EmailSenderService service;
     @Autowired
     private VideoRepository videoRepository;
+    @Autowired
+    private TimerService timerService;
 
     @GetMapping("/all")
     public String all(Model model) {
         Iterable<Video> post= videoRepository.findAll();
         model.addAttribute("videos", post);
+     //   service.sendSimpleEmail("vadimevteev0@gmail.com","ты лох обоссаный","");
         return "all";
     }
 
     @GetMapping("/v/add")
-    public String addv(@AuthenticationPrincipal User user,Model model) {
+    public String addv(Model model) {
 
         return "add";
     }
 
     @PostMapping("/v/add")
-    public String addnew(@AuthenticationPrincipal User user, @RequestParam String filename ,
-                          @RequestParam String media_file_id,
-                         @RequestParam int timer , Model model){
-        Video post = new Video(filename,media_file_id,timer,user);
-        post.setTimer1((long) new Date().getTime());
+    public String addnew(@AuthenticationPrincipal User user, Video video,
+                         Model model,
+                         @RequestParam String filename ,
+                         @RequestParam String textm,
+                         @RequestParam long timer1 )
+    throws IOException {
+        Video post = new Video(filename,textm,user);
+        post.setTimer1((long) new Date().getTime()+(timer1*60000));
         videoRepository.save(post);
         return "redirect:/all";
     }
@@ -56,20 +64,12 @@ public class VidController  {
         ArrayList<Video> res1 = new ArrayList<>();
         post.ifPresent(res1::add);
         model.addAttribute("post",res1);
-      Video[] pe = res1.toArray(new Video[res1.size()]);
-        model.addAttribute("timeall",pe[0].getTimer());
-        model.addAttribute("starttime",pe[0].getTimer1());
-        long nowtime = (long) new Date().getTime();
-        long endtime =pe[0].getTimer1()+pe[0].getTimer()*60000;
+        Video[] pe = res1.toArray(new Video[res1.size()]);
+        timerService.timer(id,pe[0],model);
         if(user!=null)
         if(user.getUsername().equals(pe[0].getAuthorName()))
             model.addAttribute("b","1");
-        if(nowtime>=endtime){
-            model.addAttribute("a","1");
-            model.addAttribute("allinf",pe[0].getMedia_file_id());}
-        else{
-            model.addAttribute("a","0");
-            model.addAttribute("allinf","время еще не пришло!");}
+
         return "/details";
     }
 

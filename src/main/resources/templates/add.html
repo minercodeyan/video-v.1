@@ -11,11 +11,11 @@
 <div class="container mt-5 mb-5">
     <p><h1 class="text-center text-primary">Добавление статьи</h1> </p>
     <div>
-        <form th:action="@{/v/add}" method="post">
+        <form action="#" th:action="@{/v/add}" method="post" >
             <input type ="text" name ="filename" placeholder="название" class="form-control">
-            <textarea name ="media_file_id" placeholder="содержание" class="form-control"></textarea>
-            <input type ="number" min="1" max="99999999" value="1"name ="timer" placeholder="введите время" class="form-control">
-            <button type="submit" class="btn">добавить</button>
+            <textarea rows="14" name ="textm" placeholder="содержание" class="form-control"></textarea>
+            <input type ="number" min="1" max="99999999" value="1"name ="timer1" placeholder="введите время" class="form-control">
+            <button type="submit" class="btn btn-info">добавить</button>
         </form>
     </div>
 </div>

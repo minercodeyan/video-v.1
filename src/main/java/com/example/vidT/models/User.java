@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
@@ -15,8 +16,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotBlank(message = "не может быть пустым")
+    @Length(max=30, message = "Слишком длинный текст")
     private String username;
+    @NotBlank(message = "не может быть пустым")
+    @Length(min=6,max=4096, message = "Слишком длинный текст")
     private String password;
+    @Email(message = "не корректный email")
+    @NotBlank(message = "не может быть пустым")
     private String email;
     @Transient
     private String password2;
@@ -24,8 +31,10 @@ public class User implements UserDetails {
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
+
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
     @OneToMany(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Video> videos;
 
@@ -46,14 +55,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", password2='" + password2 + '\'' +
-                ", active=" + active +
-                ", roles=" + roles +
-                '}';
+        return  username;
     }
 
     public String getEmail() {
@@ -106,7 +108,8 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority>
+    getAuthorities() {
         return getRoles();
     }
 

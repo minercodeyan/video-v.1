@@ -30,9 +30,8 @@
 </body>
 <script th:inline="javascript">
 /*<![CDATA[*/
-var start = /*[[${starttime}]]*/;
-var time1 = /*[[${timeall}]]*/;
-var end = start + time1*60000 ;
+
+var end =  /*[[${endtime}]]*/;
 window.onload=function(){
   window.setInterval(function(){
       var now = Date.parse(new Date())
