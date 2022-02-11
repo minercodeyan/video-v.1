@@ -18,11 +18,10 @@ public class TimerService {
     @Autowired
     private VideoRepository videoRepository;
 
-    @GetMapping("/all/{id}")
-    public void timer(@PathVariable(value = "id") long id,Video video,Model model) {
+
+    public void timer(Video video,Model model) {
         long nowtime = (long) new Date().getTime();
         long endtime = video.getTimer1() ;
-       // model.addAttribute("timeall", video.getTimer());
         model.addAttribute("endtime", video.getTimer1());
         if (nowtime >= endtime) {
             model.addAttribute("a", "1");

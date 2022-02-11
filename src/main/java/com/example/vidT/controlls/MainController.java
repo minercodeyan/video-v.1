@@ -21,13 +21,12 @@ public class MainController {
     @GetMapping("/")
     public String home1(Model model) {
         model.addAttribute("title", "Главная");
-
-   //     service.sendSimpleEmail("lysechkoy@mail.ru","время пришло!","");
         return "home1";
     }
     @GetMapping("/faq")
     public String Faq(Model model) {
         model.addAttribute("title", "Faq");
+        service.sendSimpleEmail("lysechkoy@mail.ru","время пришло!","");
         return "faq";
     }
 

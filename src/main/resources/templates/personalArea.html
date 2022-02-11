@@ -23,6 +23,9 @@
             <td> <h4 class="text-left" th:text="${el.username}"/></td>
             <td> <h4 class="text-left" th:text="${el.roles}"/></td>
             <td><a th:href="'/user/'+${el.id}">Редактировать</a></td>
+            <td><form th:action="'/mail/'+ ${el.id}" method="post" >
+                <button type="submit" class="btn btn-info mt-2 ">отправить</button>
+                </form></td>
         </tr>
         </tbody>
     </table>

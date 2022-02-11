@@ -35,7 +35,6 @@ public class VidController  {
     public String all(Model model) {
         Iterable<Video> post= videoRepository.findAll();
         model.addAttribute("videos", post);
-     //   service.sendSimpleEmail("vadimevteev0@gmail.com","ты лох обоссаный","");
         return "all";
     }
 
@@ -54,20 +53,21 @@ public class VidController  {
     throws IOException {
         Video post = new Video(filename,textm,user);
         post.setTimer1((long) new Date().getTime()+(timer1*60000));
+        post.setAdminsend(false);
         videoRepository.save(post);
         return "redirect:/all";
     }
 
     @GetMapping("/all/{id}")
     public String details(@AuthenticationPrincipal User user, @PathVariable(value = "id") long id,Model model){
-        Optional<Video> post = videoRepository.findById(id);
-        ArrayList<Video> res1 = new ArrayList<>();
-        post.ifPresent(res1::add);
-        model.addAttribute("post",res1);
-        Video[] pe = res1.toArray(new Video[res1.size()]);
-        timerService.timer(id,pe[0],model);
+        Video post = videoRepository.findById(id);
+       // ArrayList<Video> res1 = new ArrayList<>();
+       // post.ifPresent(res1::add);
+        model.addAttribute("post",post);
+       // Video[] pe = res1.toArray(new Video[res1.size()]);
+        timerService.timer(post,model);
         if(user!=null)
-        if(user.getUsername().equals(pe[0].getAuthorName()))
+        if(user.getUsername().equals(post.getAuthorName()))
             model.addAttribute("b","1");
 
         return "/details";
@@ -75,9 +75,11 @@ public class VidController  {
 
     @PostMapping("/all/{id}")
     public String delVid(@PathVariable(value = "id") long id,Model model){
-        Video post = videoRepository.findById(id).orElseThrow();
+        Video post = videoRepository.findById(id);
         videoRepository.delete(post);
         return "redirect:/all";
     }
+
+
 
 }

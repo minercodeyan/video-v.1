@@ -7,6 +7,6 @@ import java.util.Optional;
 
 @Repository
 public interface VideoRepository extends CrudRepository<Video, Integer> {
-    Optional<Video> findById(long id);
+    Video findById(long id);
     List<Video> findByFilename(String filename);
 }

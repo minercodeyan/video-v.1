@@ -17,14 +17,13 @@ public class Video {
     @Length(max=4096, message = "Слишком длинный текст")
     private String textm;
     private long timer1;
-
+    private boolean isAdminsend;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="user_id")
     private User author;
 
     public Video() {
     }
-
 
 
     public Video(String filename, String textm, User user) {
@@ -38,7 +37,13 @@ public class Video {
         return author != null ? author.getUsername() : "<none>";
     }
 
+    public boolean isAdminsend() {
+        return isAdminsend;
+    }
 
+    public void setAdminsend(boolean adminsend) {
+        isAdminsend = adminsend;
+    }
 
     public User getAuthor() {
         return author;
