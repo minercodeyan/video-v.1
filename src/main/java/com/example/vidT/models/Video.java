@@ -3,7 +3,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 
 @Entity
@@ -12,7 +11,7 @@ public class Video {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotEmpty(message = "Заполните")
-    private String filename;
+    private String name;
     @NotNull(message = "Заполните")
     @Length(max=4096, message = "Слишком длинный текст")
     private String textm;
@@ -21,19 +20,17 @@ public class Video {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="user_id")
     private User author;
-
+    private String filename;
     public Video() {
     }
 
-
-    public Video(String filename, String textm, User user) {
-        this.filename = filename;
+    public Video(String name, String textm, User user) {
+        this.name = name;
         this.textm = textm;
         this.author = user;
     }
 
     public String getAuthorName(){
-
         return author != null ? author.getUsername() : "<none>";
     }
 
@@ -77,6 +74,14 @@ public class Video {
         this.textm = textm;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String Name) {
+        this.name = name;
+    }
+
     public String getFilename() {
         return filename;
     }
@@ -84,6 +89,4 @@ public class Video {
     public void setFilename(String filename) {
         this.filename = filename;
     }
-
-
 }

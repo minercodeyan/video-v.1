@@ -1,6 +1,8 @@
 package com.example.vidT.controlls;
 
 
+import com.example.vidT.Service.EmailSenderService;
+import com.example.vidT.models.Role;
 import com.example.vidT.models.User;
 import com.example.vidT.models.Video;
 import com.example.vidT.repositories.UserRepo;
@@ -13,13 +15,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Date;
 import java.util.Set;
-import java.util.zip.DataFormatException;
+
 
 @Controller
 public class EmailController {
     @Autowired
+    private EmailSenderService service;
+    @Autowired
     private VideoRepository videoRepository;
 
+    @Autowired
+    private UserRepo userRepo;
 
     @PostMapping("/mail/{user}")
     public String sendmail(@PathVariable User user,
@@ -28,8 +34,10 @@ public class EmailController {
         for ( Video v: vid) {
            if(v.isAdminsend()==false)
                if(v.getTimer1()<new Date().getTime()){
+                  // service.sendSimpleEmail(user.getEmail(),v.getFilename()+"пришло!","");
                    System.out.println(user.getEmail());
             v.setAdminsend(true);
+
             videoRepository.save(v);
         }}
         return "redirect:/user";

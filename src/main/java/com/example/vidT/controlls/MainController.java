@@ -26,7 +26,6 @@ public class MainController {
     @GetMapping("/faq")
     public String Faq(Model model) {
         model.addAttribute("title", "Faq");
-        service.sendSimpleEmail("lysechkoy@mail.ru","время пришло!","");
         return "faq";
     }
 
@@ -34,7 +33,7 @@ public class MainController {
     public String filter(@RequestParam String filter , Model model){
         Iterable<Video> vid;
         if(filter!=null && !filter.isEmpty())
-            vid = videoRepository.findByFilename(filter);
+            vid = videoRepository.findByName(filter);
         else
             vid=videoRepository.findAll();
         model.addAttribute("videos",vid);

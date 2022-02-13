@@ -9,13 +9,13 @@
 <header th:insert="blocks/headerPLusfooter :: header">
 </header>
 <div class="container mt-5">
-   <p><h1 class="text-center text-primary">Главная</h1> </p>
-        <form th:action="filter" method="post" class="form-control"><input type="text" name="filter"/>
+   <p><h1 class="text-center text-dark">Главная</h1> </p>
+        <form th:action="filter" method="post" ><input type="text" name="filter"/>
         <button type="submit" class="btn">Найти</button>
             <div class="alert alert-info m-2" th:each="el : ${videos}">
-                <div class="text-center"><h3 th:text="${el.filename}"/></div>
+                <div class="text-center"><h3 th:text="${el.name}"/></div>
                 <div class="text-center "><p th:text="${el.authorName}" /></div>
-                <div class="text-center "><a th:href="'/all/'+${el.id}">прочитать</a></div>
+                <div class="text-center "><a class="btn btn-info"th:href="'/all/'+${el.id}">прочитать</a></div>
             </div>
         </form>
     <div class="mb-5">

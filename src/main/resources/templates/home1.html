@@ -5,20 +5,27 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        </head>
+</head>
             <body>
             <header th:insert="blocks/headerPLusfooter :: header">
-        </header>
+
+            </header>
             <div class="container p-3"  style="margin-top:30px">
-                <div class="row align-items-center">
-                    <div class="col-sm-4">
-                        <h1>Ностальгия это круто</h1>
-                        <p><img src="https://cdn.f.kz/prod/857/856043_550.jpg" class="img-fluid" alt="Responsve iage">
+                <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+                    <div class="col-md-6 px-0">
+                        <h1 class="display-4 font-italic">Тут название H1</h1>
+                        <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
+                        <p class="lead mb-0"><a href="/faq" class="text-white font-weight-bold">O сайте...</a></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1 >Ностальгия это круто</h1>
+                        <p ><img src="https://cdn.f.kz/prod/857/856043_550.jpg" class="img-fluid" alt="Responsve iage">
                         </p>
                     </div>
-                    <div class="col-sm-6 pr-3">
-                        <p class="text-center alert-info p-5">Center aligned text on all viewport sizes.
+                    <div class="col-sm-6">
+                        <p class="text-center text-light p-5 bg-primary mt-1">Center aligned text on all viewport sizes.
                         Вероятно, первое письменное описание ностальгических переживаний содержится в эпопее Гомера «Одиссея».
                             Однако сам термин изобретён швейцарским врачом Иоганном Хофером в 1688 году,
                             описывая заболевание швейцарских солдат, служивших наёмниками вдали от своей родины, и студентов, исцелявшихся сразу после возвращения домой.
@@ -32,7 +39,7 @@
                 </div>
             </div>
             <div class="jumbotron text-center" style="margin-bottom:0">
-            <div th:insert="blocks/headerPLusfooter :: footer">
+                <div th:insert="blocks/headerPLusfooter :: footer">
             </div>
             </div>
             </body>
