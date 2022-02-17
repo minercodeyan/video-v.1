@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -16,14 +18,17 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotBlank(message = "не может быть пустым")
-    @Length(max=30, message = "Слишком длинный текст")
+
+    @Size(min=3,max=30, message="")
+    @Pattern(regexp="[\\da-zA-Z]+",message="неккоректный логин")
     private String username;
-    @NotBlank(message = "не может быть пустым")
-    @Length(min=6,max=4096, message = "Слишком длинный текст")
+
+    @Size(min=6,max=40, message="")
+    @Pattern(regexp="[\\da-zA-Z]+",message="неккоректный пароль")
     private String password;
-    @Email(message = "не корректный email")
+
     @NotBlank(message = "не может быть пустым")
+    @Email(message = "некорректный email")
     private String email;
     @Transient
     private String password2;

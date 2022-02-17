@@ -13,19 +13,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MainController {
-    @Autowired
-    private EmailSenderService service;
+
     @Autowired
     private VideoRepository videoRepository;
 
     @GetMapping("/")
     public String home1(Model model) {
-        model.addAttribute("title", "Главная");
         return "home1";
     }
     @GetMapping("/faq")
     public String Faq(Model model) {
-        model.addAttribute("title", "Faq");
         return "faq";
     }
 
@@ -37,6 +34,6 @@ public class MainController {
         else
             vid=videoRepository.findAll();
         model.addAttribute("videos",vid);
-        return "/all";
+        return "all";
     }
 }

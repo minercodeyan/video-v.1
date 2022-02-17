@@ -1,6 +1,7 @@
 package com.example.vidT.controlls;
 import com.example.vidT.Service.EmailSenderService;
 import com.example.vidT.Service.TimerService;
+import com.example.vidT.Service.UserService;
 import com.example.vidT.models.User;
 import com.example.vidT.models.Video;
 import com.example.vidT.repositories.VideoRepository;
@@ -24,10 +25,16 @@ public class VidController  {
 
     @Autowired
     private EmailSenderService service;
+
     @Autowired
     private VideoRepository videoRepository;
+
     @Autowired
     private TimerService timerService;
+
+    @Autowired
+    private UserService userService;
+
     @Value("${upload.path}")
     private String uploadPath;
 
@@ -47,34 +54,42 @@ public class VidController  {
     @PostMapping("/v/add")
     public String addnew(@AuthenticationPrincipal User user, Video video,
                          Model model,
-                         @RequestParam String name ,
-                         @RequestParam String textm,
+                         @RequestParam String name , @RequestParam String textm,
                          @RequestParam("file") MultipartFile file,
-                         @RequestParam long timer1 )
+                         @RequestParam long timerday, @RequestParam long timerhour, @RequestParam long timermin)
     throws IOException {
-        Video post = new Video(name,textm,user);
-        post.setTimer1((long) new Date().getTime()+(timer1*60000));
-        post.setAdminsend(false);
-       if(file !=null){ File uploadD =new File(uploadPath);
-       if(!uploadD.exists()){ uploadD.mkdir(); }
-       String uuidFile= UUID.randomUUID().toString();
-       String resultFilename = uuidFile + "." + file.getOriginalFilename();
-       file.transferTo(new File(uploadPath+"/"+resultFilename));
-       post.setFilename(resultFilename);
+       if(userService.maxCount(user)==true) {
+           Video post = new Video(name.trim(), textm.trim(), user);
+           post.setTimer1((long) new Date().getTime() +
+                   (timerService.toftime(timerday, timerhour, timermin)));
+           post.setAdminsend(false);
+           if (!file.isEmpty()) {
+               File uploadD = new File(uploadPath);
+               if (!uploadD.exists()) {
+                   uploadD.mkdir();
+               }
+               String uuidFile = UUID.randomUUID().toString();
+               String resultFilename = uuidFile + "." + file.getOriginalFilename();
+               file.transferTo(new File(uploadPath + "/" + resultFilename));
+               post.setFilename(resultFilename);
+           }
+           videoRepository.save(post);
+           return "redirect:/all";
+       }else
+           return "add";
     }
-        videoRepository.save(post);
-        return "redirect:/all";
-    }
+
 
     @GetMapping("/all/{id}")
     public String details(@AuthenticationPrincipal User user, @PathVariable(value = "id") long id,Model model){
         Video post = videoRepository.findById(id);
+
         model.addAttribute("post",post);
         timerService.timer(post,model);
         if(user!=null)
         if(user.getUsername().equals(post.getAuthorName()))
             model.addAttribute("b","1");
-        return "/details";
+        return "details";
     }
 
     @PostMapping("/all/{id}")

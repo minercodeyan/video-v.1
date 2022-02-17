@@ -9,16 +9,18 @@
         <span class="fs-3 text-warning">Time</span><span class="fs-5>">Machine</span>
     </a>
     <ul class="nav nav-pills">
-    <li class="nav-item text"><a href="/" class="nav-link btn-outline-dark">Главная</a></li>
+    <li class="nav-item"><a href="/" class="nav-link btn-outline-dark">Главная</a></li>
     <li class="nav-item"><a href="/v/add" class="nav-link btn-outline-dark">Добавить</a></li>
     <li class="nav-item"><a href="/all" class="nav-link btn-outline-dark">Библиотека</a></li>
     <li class="nav-item"><a href="/faq" class="nav-link btn-outline-dark">FAQs</a></li>
-        <div sec:authorize="isAuthenticated()" style="margin-right: 6px">
+        <li class="nav-item"><a href="/profile" sec:authorize="isAuthenticated()" class="nav-link text-truncate text-muted btn-outline-dark ml-1"
+                                style="max-width: 100px;"><th:block  sec:authentication="name"/></a></li>
+        <div sec:authorize="isAuthenticated()" style="margin-right: 6px;margin-left: 6px;">
             <form th:action="@{/logout}" method="post">
                 <input class="btn btn-primary " type="submit" value="Выйти"/>
             </form>
         </div>
-        <div sec:authorize="!isAuthenticated()" style="margin-right: 6px">
+        <div sec:authorize="!isAuthenticated()" style="margin-right: 6px;margin-left: 6px;">
             <li class="nav-item"><a th:href="@{/login}" class="btn btn-primary">Войти</a></li>
         </div>
 </ul>
@@ -32,7 +34,7 @@
                     <div class="p-2">Ян</div>
                     <div class="p-2">Крутой</div>
                     <div class="p-2">Чел</div>
-                </div>© 2020
+                </div>© 2022
             </div>
         </footer>
 </div>
