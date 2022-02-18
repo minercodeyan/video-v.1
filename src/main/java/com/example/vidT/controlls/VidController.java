@@ -1,5 +1,7 @@
 package com.example.vidT.controlls;
+
 import com.example.vidT.Service.EmailSenderService;
+import com.example.vidT.Service.FileService;
 import com.example.vidT.Service.TimerService;
 import com.example.vidT.Service.UserService;
 import com.example.vidT.models.User;
@@ -21,10 +23,8 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class VidController  {
+public class VidController {
 
-    @Autowired
-    private EmailSenderService service;
 
     @Autowired
     private VideoRepository videoRepository;
@@ -35,12 +35,13 @@ public class VidController  {
     @Autowired
     private UserService userService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    @Autowired
+    private FileService fileService;
+
 
     @GetMapping("/all")
     public String all(Model model) {
-        Iterable<Video> post= videoRepository.findAll();
+        Iterable<Video> post = videoRepository.findAll();
         model.addAttribute("videos", post);
         return "all";
     }
@@ -54,51 +55,41 @@ public class VidController  {
     @PostMapping("/v/add")
     public String addnew(@AuthenticationPrincipal User user, Video video,
                          Model model,
-                         @RequestParam String name , @RequestParam String textm,
+                         @RequestParam String name, @RequestParam String textm,
                          @RequestParam("file") MultipartFile file,
                          @RequestParam long timerday, @RequestParam long timerhour, @RequestParam long timermin)
-    throws IOException {
-       if(userService.maxCount(user)==true) {
-           Video post = new Video(name.trim(), textm.trim(), user);
-           post.setTimer1((long) new Date().getTime() +
-                   (timerService.toftime(timerday, timerhour, timermin)));
-           post.setAdminsend(false);
-           if (!file.isEmpty()) {
-               File uploadD = new File(uploadPath);
-               if (!uploadD.exists()) {
-                   uploadD.mkdir();
-               }
-               String uuidFile = UUID.randomUUID().toString();
-               String resultFilename = uuidFile + "." + file.getOriginalFilename();
-               file.transferTo(new File(uploadPath + "/" + resultFilename));
-               post.setFilename(resultFilename);
-           }
-           videoRepository.save(post);
-           return "redirect:/all";
-       }else
-           return "add";
+            throws IOException {
+        if (userService.maxCount(user) == true) {
+            Video post = new Video(name.trim(), textm.trim(), user);
+            post.setTimer1((long) new Date().getTime() +
+                    (timerService.toftime(timerday, timerhour, timermin)));
+            post.setAdminsend(false);
+            fileService.fileLoader(file,video);
+            videoRepository.save(post);
+            return "redirect:/all";
+        } else
+            return "add";
     }
 
 
     @GetMapping("/all/{id}")
-    public String details(@AuthenticationPrincipal User user, @PathVariable(value = "id") long id,Model model){
+    public String details(@AuthenticationPrincipal User user, @PathVariable(value = "id") long id, Model model) {
         Video post = videoRepository.findById(id);
 
-        model.addAttribute("post",post);
-        timerService.timer(post,model);
-        if(user!=null)
-        if(user.getUsername().equals(post.getAuthorName()))
-            model.addAttribute("b","1");
+        model.addAttribute("post", post);
+        timerService.timer(post, model);
+        if (user != null)
+            if (user.getUsername().equals(post.getAuthorName()))
+                model.addAttribute("b", "1");
         return "details";
     }
 
     @PostMapping("/all/{id}")
-    public String delVid(@PathVariable(value = "id") long id,Model model){
+    public String delVid(@PathVariable(value = "id") long id, Model model) {
         Video post = videoRepository.findById(id);
         videoRepository.delete(post);
         return "redirect:/all";
     }
-
 
 
 }

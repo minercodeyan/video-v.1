@@ -25,12 +25,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr  th:each="el : ${users}" >
+        <tr  th:each="user : ${users}" >
             <th scope="row" >#</th>
-            <td> <h5 class="text-left" th:text="${el.username}"/></td>
-            <td> <h5 class="text-left" th:text="${#strings.setJoin(el.roles, ',')}"/></td>
-            <td><a th:href="'/user/'+${el.id}">Редактировать</a></td>
-            <td><form th:action="'/mail/'+ ${el.id}" method="post" >
+            <td> <h5 class="text-left" th:text="${user.username}"/></td>
+            <td> <h5 class="text-left" th:text="${#strings.setJoin(user.roles, ',')}"/></td>
+            <td><a th:href="'/user/'+${user.id}">Редактировать</a></td>
+            <td>
+                <form th:action="'/user/mail/'+ ${user.id}" method="post" >
                 <button type="submit" class="btn btn-info mt-2 ">отправить</button>
                 </form></td>
         </tr>

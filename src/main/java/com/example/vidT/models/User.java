@@ -1,4 +1,5 @@
 package com.example.vidT.models;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -19,28 +21,28 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Size(min=3,max=30, message="")
-    @Pattern(regexp="[\\da-zA-Z]+",message="неккоректный логин")
+    @Size(min = 3, max = 30, message = "минимум 3 символа")
+    @Pattern(regexp = "[\\da-zA-Z]+", message = "неккоректный логин")
     private String username;
 
-    @Size(min=6,max=40, message="")
-    @Pattern(regexp="[\\da-zA-Z]+",message="неккоректный пароль")
+    @Size(min = 6, max = 40, message = "минимум 6 символов")
+    @Pattern(regexp = "[\\da-zA-Z]+", message = "неккоректный пароль")
     private String password;
 
     @NotBlank(message = "не может быть пустым")
     @Email(message = "некорректный email")
+    @Column(unique = true)
     private String email;
     @Transient
     private String password2;
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
-
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Video> videos;
 
     public Set<Video> getVideos() {
@@ -60,7 +62,7 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return  username;
+        return username;
     }
 
     public String getEmail() {
@@ -70,7 +72,7 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
 
     public void setVideos(Set<Video> videos) {
         this.videos = videos;
@@ -140,5 +142,18 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

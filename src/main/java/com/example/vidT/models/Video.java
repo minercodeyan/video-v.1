@@ -1,5 +1,7 @@
 package com.example.vidT.models;
+
 import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,14 +15,15 @@ public class Video {
     @NotEmpty(message = "Заполните")
     private String name;
     @NotNull(message = "Заполните")
-    @Length(max=4096, message = "Слишком длинный текст")
+    @Length(max = 4096, message = "Слишком длинный текст")
     private String textm;
     private long timer1;
     private boolean isAdminsend;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="user_id")
+    @JoinColumn(name = "user_id")
     private User author;
     private String filename;
+
     public Video() {
     }
 
@@ -30,7 +33,7 @@ public class Video {
         this.author = user;
     }
 
-    public String getAuthorName(){
+    public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
     }
 

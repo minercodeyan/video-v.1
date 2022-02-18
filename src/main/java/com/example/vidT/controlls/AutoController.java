@@ -1,5 +1,6 @@
 package com.example.vidT.controlls;
 
+import com.example.vidT.CodeGeneraror;
 import com.example.vidT.Service.EmailSenderService;
 import com.example.vidT.Service.UserService;
 import com.example.vidT.models.User;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-
 
 @Controller
 public class AutoController {
@@ -50,16 +50,20 @@ public class AutoController {
                 mod.addAttribute("massage2", "пароли не совпадают");
                 return "reg";
             }
-            if (!userService.addUser(user)) {
+            if (userService.addUser(user) == 1) {
                 mod.addAttribute("massage1", "такое имя уже есть");
                 return "reg";
             }
+            if (userService.addUser(user) == 2) {
+                mod.addAttribute("massage3", "такой email уже есть");
+                return "reg";
+            }
         }
-        int i = 100000 + (int) (Math.random()*999999);
-        System.out.println(i);
-        service.sendSimpleEmail(user.getEmail(),String.valueOf(i),"confirm");//spring uniccode
-        mod.addAttribute("secret",String.valueOf(i));
-        mod.addAttribute("user",user.getId());
+
+        String code = CodeGeneraror.generate();
+        service.sendSimpleEmail(user.getEmail(),code, "confirm");//spring uniccode
+        mod.addAttribute("secret", code);
+        mod.addAttribute("userId", user.getId());
         return "confirmemail";
     }
 }
