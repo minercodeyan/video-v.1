@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/all","/faq","/all/{id}","/reg","/activateUser",
+                .antMatchers("/", "/all","/faq","/all/{id}","/reg","/activateUser","/profiles/{username}",
                         "/style/**").permitAll() //страницы с полным доступом
                 .anyRequest().authenticated()
                 .and()

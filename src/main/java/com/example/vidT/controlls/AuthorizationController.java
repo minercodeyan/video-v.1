@@ -1,6 +1,6 @@
 package com.example.vidT.controlls;
 
-import com.example.vidT.CodeGeneraror;
+import com.example.vidT.CodeGenerator;
 import com.example.vidT.Service.EmailSenderService;
 import com.example.vidT.Service.UserService;
 import com.example.vidT.models.User;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import javax.validation.Valid;
 
 @Controller
-public class AutoController {
+public class AuthorizationController {
 
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -29,13 +29,18 @@ public class AutoController {
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    @Autowired
     private UserService userService;
-    @Autowired
     private EmailSenderService service;
+
+    @Autowired
+    public AuthorizationController(UserService userService, EmailSenderService service) {
+        this.userService = userService;
+        this.service = service;
+    }
 
     @GetMapping("/reg")
     public String reg(@ModelAttribute("user") User user) {
+
         return "reg";
     }
 
@@ -59,9 +64,9 @@ public class AutoController {
                 return "reg";
             }
         }
-
-        String code = CodeGeneraror.generate();
+        String code = CodeGenerator.generate();
         service.sendSimpleEmail(user.getEmail(),code, "confirm");//spring uniccode
+        System.out.println(2);
         mod.addAttribute("secret", code);
         mod.addAttribute("userId", user.getId());
         return "confirmemail";

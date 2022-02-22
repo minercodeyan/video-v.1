@@ -3,6 +3,7 @@ package com.example.vidT.Service;
 import com.example.vidT.models.Video;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class TimerService {
     private static long milsinmin = 60000;
     private static long milsinhour = 3600000;
     private static long milsinday = 86400000;
-    private boolean timerIsEnd = false;
+
 
     public long toftime(long d, long h, long m) {
         long allt;
@@ -20,14 +21,15 @@ public class TimerService {
         return allt;
     }
 
+
     public void timer(Video video, Model model) {
-        long nowtime = (long) new Date().getTime();
-        long endtime = video.getTimer1();
-        model.addAttribute("endtime", video.getTimer1());
-        if (nowtime >= endtime) {
-            model.addAttribute("allinf", video.getTextm());
+        long nowTime = new Date().getTime();
+        long endTime = video.getTimer1();
+        model.addAttribute("endTime", video.getTimer1());
+        if (nowTime >= endTime) {
+            model.addAttribute("allInf", video.getTextm());
         } else {
-            model.addAttribute("allinf", "Время еще не пришло!");
+            model.addAttribute("allInf", "Время еще не пришло!");
         }
     }
 }

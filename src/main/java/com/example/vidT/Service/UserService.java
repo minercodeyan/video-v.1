@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class UserService implements UserDetailsService {
         }
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));//set с 1 значением
-        userRepo.save(user);
+         userRepo.save(user);
         return 0;
     }
 
@@ -59,7 +58,8 @@ public class UserService implements UserDetailsService {
 
     public void editUser(String username, User user, Map<String, String> form) {
 
-        Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
+        Set<String> roles = Arrays.stream(Role.values()).map(Role::name)
+                .collect(Collectors.toSet());
         user.getRoles().clear();
         for(String key :form.keySet()){
            if(roles.contains(key)){

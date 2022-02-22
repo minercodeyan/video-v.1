@@ -6,27 +6,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link type="text/css" rel="stylesheet" href="/static/style/css/style.css" th:href="@{/style/css/style.css}"/>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header th:insert="blocks/headerPLusfooter :: header">
 </header>
 <div class="container mt-5">
     <div class="d-flex justify-content-center ">
         <h4 class="border rounded-pill p-3" id="countdown"/>
     </div>
-    <div th:each="el : ${post}" class="text-center">
-        <h3 th:text="${el.name}"/>
-        <div th:text="${allinf}" class="alert alert-dark text-center"></div>
+    <div th:object="${post}" class="text-center">
+        <h3 th:text="${post.name}"/>
+        <div th:text="${allInf}" class="alert alert-dark text-center"></div>
         <th:block th:if="${b}==1">
-            <form th:action="'/all/'+ ${el.id}" method="post">
-                <button type="submit" class="btn btn-warning alert alert-dark text-center">Удалить</button>
-            </form>
+            <th:block th:if="${param.currpage}==null">
+                <button id="onetime" type="submit" class="btn btn-warning alert alert-dark text-center">Удалить</button>
+            </th:block>
         </th:block>
     </div>
 </div>
+<th:block th:insert="blocks/headerPLusfooter :: footer">
+</th:block>
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var end = /*[[${endtime}]]*/;
+    let end = /*[[${endTime}]]*/;
     /*]]>*/
 </script>
 <script type="text/javascript" th:src="@{/style/js/timer.js}"></script>

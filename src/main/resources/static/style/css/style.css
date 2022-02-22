@@ -1,10 +1,5 @@
 
 .underline{
-    text-decoration: underline;
-    text-decoration-color: slategrey;
-}
-
-.overline{
+    opacity: 0.5;
     text-decoration: overline;
-    text-decoration-color: slategrey;
 }

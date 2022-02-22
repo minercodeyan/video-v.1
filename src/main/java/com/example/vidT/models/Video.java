@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
+@Table(name = "video")
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,9 +20,11 @@ public class Video {
     private String textm;
     private long timer1;
     private boolean isAdminsend;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
     private String filename;
 
     public Video() {

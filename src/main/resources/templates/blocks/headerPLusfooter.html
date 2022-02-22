@@ -14,25 +14,24 @@
                 <li class="nav-item"><a href="/v/add" class="nav-link ">Добавить</a></li>
                 <li class="nav-item"><a href="/all" class="nav-link ">Библиотека</a></li>
                 <li class="nav-item"><a href="/faq" class="nav-link">FAQs</a></li>
-                <li class="nav-item"><a href="/profile" sec:authorize="isAuthenticated()"
-                                        class="nav-link text-truncate text-muted btn-outline-dark ml-1"
+                <li class="nav-item"><a th:href="'/profiles/'+ ${#authentication.getPrincipal().getUsername()}" sec:authorize="isAuthenticated()" class="nav-link text-truncate text-muted ml-1"
                                         style="max-width: 100px;">
                     <th:block sec:authentication="name"/>
                 </a></li>
                 <div sec:authorize="isAuthenticated()" style="margin-right: 6px;margin-left: 6px;">
                     <form th:action="@{/logout}" method="post">
-                        <input class="btn btn-primary " type="submit" value="Выйти"/>
+                        <input class="btn  btn-primary " type="submit" value="Выйти"/>
                     </form>
                 </div>
                 <div sec:authorize="!isAuthenticated()" style="margin-right: 6px;margin-left: 6px;">
-                    <li class="nav-item"><a th:href="@{/login}" class="btn btn-primary">Войти</a></li>
+                    <li class="nav-item"><a th:href="@{/login}" class="btn btn-outline-primary">Войти</a></li>
                 </div>
             </ul>
 
         </div>
     </div>
-    <div th:fragment="footer" xmlns:th="http://www.w3.org/1999/xhtml">
-        <footer class="bg-light text-center text-lg-start">
+    <th:block th:fragment="footer" xmlns:th="http://www.w3.org/1999/xhtml">
+        <footer class="mt-auto bg-light text-center text-lg-start ">
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                 <div class="d-flex justify-content-center mb-3;">
                     <div class="p-2">Ян</div>
@@ -44,5 +43,5 @@
         </footer>
         <script type="text/javascript" th:src="@{/style/js/jquery.js}"></script>
         <script type="text/javascript" th:src="@{/style/js/animation.js}"></script>
-    </div>
+    </th:block>
 </div>

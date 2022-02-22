@@ -1,6 +1,6 @@
 package com.example.vidT;
 
-public class CodeGeneraror {
+public class CodeGenerator {
     private int a = 100000;
     private int b = 1000000;
 

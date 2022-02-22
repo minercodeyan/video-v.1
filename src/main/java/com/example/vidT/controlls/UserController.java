@@ -8,6 +8,7 @@ import com.example.vidT.models.Video;
 import com.example.vidT.repositories.UserRepo;
 import com.example.vidT.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +23,19 @@ import java.util.Set;
 @RequestMapping("/user")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
-    @Autowired
+
     private UserRepo userRepo;
-    @Autowired
     private EmailSenderService service;
-    @Autowired
     private UserService userService;
-    @Autowired
     private VideoRepository videoRepository;
+
+    @Autowired
+    public UserController(UserRepo userRepo, EmailSenderService service, UserService userService, VideoRepository videoRepository) {
+        this.userRepo = userRepo;
+        this.service = service;
+        this.userService = userService;
+        this.videoRepository = videoRepository;
+    }
 
     @GetMapping
     public String userList(Model model) {
@@ -50,6 +56,7 @@ public class UserController {
                            @RequestParam Map<String, String> form,
                            @RequestParam("userId") User user, Model model) {
 
+        System.out.println(user);
         User userfromDb = userRepo.findByUsername(username);
 
         if (userfromDb != null&&username.equals(user.getUsername())==false) {
@@ -70,13 +77,12 @@ public class UserController {
     }
 
 
-
     @PostMapping("/mail/{userid}")
     public String sendmail(@PathVariable(value = "userid") User user,
                            Model model) {
-        Set<Video> vid = user.getVideos();
+        Set<Video> vid = videoRepository.findByAuthor(user);
+        if(!vid.isEmpty())
         for (Video v : vid) {
-            if (v.isAdminsend() == false)
                 if (v.getTimer1() < new Date().getTime()) {
                     // service.sendSimpleEmail(user.getEmail(),v.getFilename()+"пришло!","");
                     System.out.println(user.getEmail());

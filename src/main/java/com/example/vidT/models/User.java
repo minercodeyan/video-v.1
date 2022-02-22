@@ -1,8 +1,8 @@
 package com.example.vidT.models;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -45,10 +45,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Video> videos;
 
-    public Set<Video> getVideos() {
-        return videos;
-    }
-
     public User() {
     }
 
@@ -73,6 +69,10 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+
+    public Set<Video> getVideos() {
+        return videos;
+    }
 
     public void setVideos(Set<Video> videos) {
         this.videos = videos;
@@ -143,6 +143,8 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

@@ -1,6 +1,5 @@
 package com.example.vidT.controlls;
 
-import com.example.vidT.Service.EmailSenderService;
 import com.example.vidT.models.Video;
 import com.example.vidT.repositories.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
+
+    private final VideoRepository videoRepository;
+
     @Autowired
-    private VideoRepository videoRepository;
+    public MainController(VideoRepository videoRepository) {
+        this.videoRepository = videoRepository;
+    }
 
     @GetMapping("/")
     public String home1(Model model) {

@@ -6,21 +6,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link type="text/css" rel="stylesheet" href="/static/style/css/style.css" th:href="@{/style/css/style.css}"/>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header th:insert="blocks/headerPLusfooter :: header">
 </header>
 <div class="container mt-5">
    <p><h1 class="text-center text-dark">Главная</h1> </p>
-        <form th:action="filter" method="post" ><input type="text" name="filter"/>
-        <button type="submit" class="btn">Найти</button>
+        <form th:action="filter" method="post" >
+            <div class="container w-50">
+            <input  class="form-control" type="text" name="filter"/>
+            <p type="submit" class="btn btn-primary btn-sm mt-2">Найти</p>
+            </div>
             <div class="row">
                 <th:block th:each="el : ${videos}">
                         <div class="col-sm-6">
                             <div class="alert alert-info">
                                 <div class=" text-center"><h3 th:text="${el.name}"/></div>
                                 <div class="text-center "><p th:text="${el.authorName}" /></div>
+                                <form th:action="@{/all/${el.id}}" method="get">
                                 <div class="text-center "><a class="btn btn-info"th:href="'/all/'+${el.id}">прочитать</a>
                                 </div>
+                                </form>
                             </div>
                         </div>
                 </th:block>
@@ -30,8 +35,7 @@
     </div>
     </div>
 </div>
-<div th:insert="blocks/headerPLusfooter :: footer">
-</div>
-
+<th:block th:insert="blocks/headerPLusfooter :: footer">
+</th:block>
 </body>
 </html>
