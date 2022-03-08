@@ -1,9 +1,9 @@
-package com.example.vidT.Service;
+package com.example.vidT.services;
 
 import com.example.vidT.models.Video;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.util.Date;
 

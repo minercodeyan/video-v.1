@@ -1,14 +1,15 @@
 package com.example.vidT.models;
-
-
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 public class News {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long newsId;
+    @Size(min = 1)
     private String news;
+    @Size(min = 1)
     private String content;
 
     public News() {
@@ -41,5 +42,10 @@ public class News {
 
     public void setNewsId(Long newsId) {
         this.newsId = newsId;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(newsId) ;
     }
 }

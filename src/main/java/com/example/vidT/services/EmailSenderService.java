@@ -1,4 +1,4 @@
-package com.example.vidT.Service;
+package com.example.vidT.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,6 +11,7 @@ public class EmailSenderService {
 
 
     private JavaMailSender mailS;
+
 
     @Autowired
     public EmailSenderService(JavaMailSender mailS) {

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,49 +11,29 @@
 <body>
 <header th:insert="blocks/headerPLusfooter :: header">
 </header>
-<div class="row mt-4">
-    <div class="col-sm-6">
-        <div class="card">
-            <div class="p-2 btn-group btn-group-toggle" data-toggle="buttons">
-                <th:block th:if="${isCurrent}!=null">
-                    <label class="btn btn-secondary active">
-                        <div class="p-4 "><a href="#" class="text-black">Мой профиль</a></div>
-                    </label>
-                    <label class="btn btn-secondary">
-                        <div class="p-4 "><a href="/profile/options" class="text-black">Я и Time</a></div>
-                    </label>
-                    <label class="btn btn-secondary">
-                        <div class="p-4 "><a href="/profile/news" class="text-black">Интересное</a></div>
-                    </label>
-                </th:block>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="container">
-            <div class="alert alert-info">kiki</div>
-            <div class="row">
-                <th:block th:each="el : ${videos}">
-                    <div class="col-sm-6">
-                        <div class="alert alert-info">
-                            <div class=" text-center"><h3 th:text="${el.name}"/></div>
-                            <div class="d-flex flex-row justify-content-center">
-                                <div class="p-2"><a class="btn btn-info"
-                                                    th:href="'/all/'+${el.id}+'?currpage='+${currpage}">прочитать</a>
-                                </div>
-                                <div class="p-2">
-                                    <th:block th:if="${isCurrent}!=null">
-                                        <form th:action="'/all/'+ ${el.id} + '/del'" method="post">
-                                            <button type="submit" class="btn btn-info alert">Удалить</button>
-                                            <input type="hidden" name="currpage" th:value="${currpage}"/>
-                                        </form>
-                                    </th:block>
-                                </div>
-                            </div>
-                        </div>
+<div class="pt-5">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="p-2 btn-group btn-group-toggle" data-toggle="buttons">
+                        <th:block th:if="${isCurrent}!=null">
+                            <label class="btn btn-secondary active">
+                                <div class="p-4 "><a href="#" class="text-black">Мой профиль</a></div>
+                            </label>
+                            <label class="btn btn-secondary">
+                                <div class="p-4 "><a href="/profile/options" class="text-black">Я и Time</a></div>
+                            </label>
+                            <label class="btn btn-secondary">
+                                <div class="p-4 "><a href="/profile/news" class="text-black">Интересное</a></div>
+                            </label>
+                        </th:block>
                     </div>
-                </th:block>
+                </div>
+                <h1><div class="text-center mt-2" th:text="${userName}"></div></h1>
             </div>
+          <th:block th:insert="blocks/profileSame :: videos">
+          </th:block>
         </div>
     </div>
 </div>

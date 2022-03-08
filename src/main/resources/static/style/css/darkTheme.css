@@ -1,0 +1,39 @@
+.alert-info{
+    background: darkgray;
+    border-color: gray;
+}
+
+h1,h3,h5{
+   color: azure;
+}
+
+.btn-info{
+    background: gray;
+    border-color: gray;
+}
+
+
+body{
+    background: gray;
+}
+
+.nav-link{
+    color: white;
+}
+
+.form-control{
+    background: gray;
+}
+
+.bg{
+    background: #282828;
+}
+
+.footer{
+    background: darkgray;
+}
+
+.card{
+    background: dimgray;
+}
+

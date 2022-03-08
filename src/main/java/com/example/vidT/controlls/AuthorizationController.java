@@ -1,8 +1,8 @@
 package com.example.vidT.controlls;
 
 import com.example.vidT.CodeGenerator;
-import com.example.vidT.Service.EmailSenderService;
-import com.example.vidT.Service.UserService;
+import com.example.vidT.services.EmailSenderService;
+import com.example.vidT.services.UserService;
 import com.example.vidT.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +39,8 @@ public class AuthorizationController {
     }
 
     @GetMapping("/reg")
-    public String reg(@ModelAttribute("user") User user) {
-
+    public String reg(User user,Model model) {
+        model.addAttribute("user",user);
         return "reg";
     }
 

@@ -29,9 +29,9 @@ public class EmailController {
             userRepo.save(user);
             return "redirect:/login";
         } else {
-            model.addAttribute("massage", "код не верен");
-            model.addAttribute("secret", secret);
-            model.addAttribute("userId", userId);
+            model.addAttribute("massage", "код не верен")
+                    .addAttribute("secret", secret)
+                    .addAttribute("userId", userId);
             return "confirmemail";
         }
     }

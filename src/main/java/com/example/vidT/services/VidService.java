@@ -1,6 +1,5 @@
-package com.example.vidT.Service;
+package com.example.vidT.services;
 
-import com.example.vidT.models.Role;
 import com.example.vidT.models.User;
 import com.example.vidT.models.Video;
 import com.example.vidT.repositories.UserRepo;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Set;
 
 @Service
@@ -28,7 +26,6 @@ public class VidService {
     @Transactional
     public Set<Video> addSet(User user) {
         Set<Video> videoSet = user.getVideos();
-
         return videoSet;
     }
 

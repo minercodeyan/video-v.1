@@ -1,5 +1,5 @@
 package com.example.vidT.cfg;
-import com.example.vidT.Service.UserService;
+import com.example.vidT.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,8 +15,13 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+
     private UserService userService;
+
+    @Autowired
+    public WebSecurityConfig(UserService userService){
+        this.userService=userService;
+    }
 
 
     @Override

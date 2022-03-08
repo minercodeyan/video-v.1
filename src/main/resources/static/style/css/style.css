@@ -3,3 +3,11 @@
     opacity: 0.5;
     text-decoration: overline;
 }
+
+.bg{
+    background: #f8f9fa;
+}
+
+.footer{
+    background: darkgray;
+}
