@@ -24,18 +24,20 @@
                     <textarea rows="14" maxlength="4000" name="textm" placeholder="содержание"
                               class="form-control"></textarea>
                     </div>
-                    <div class="mb-4 m-3">
-                    <input type="file" name="file" placeholder="название" class="form-control w-25">
+                    <div class="mb-4 m-3 d-flex">
+                        <input type="file" name="file1" placeholder="название" class="form-control w-25">
+                        <input type="file" name="file2" placeholder="название" class="form-control w-25 mx-2">
+                        <input type="file" name="file3" placeholder="название" class="form-control w-25 mx-2">
                     </div>
                     <div class="d-flex flex-row w-50 m-3">
-                        <input type="number" min="0" max="9999" value="0" name="timerDay" class="form-control ">
+                        <input type="number" min="0" max="9999" value="0" name="timerDay" class="form-control">
                         <div class="m-1">Дней</div>
                         <input type="number" min="0" max="24" value="0" name="timerHour" class="form-control">
                         <div class="m-1">Часов</div>
                         <input type="number" min="1" max="60" value="1" name="timerMin" class="form-control">
                         <div class="m-1">Минут</div>
                     </div>
-                    <button type="submit" class="btn btn-info mx-3 ">добавить</button>
+                    <button type="submit" class="btn btn-info mx-3 ">Добавить</button>
                 </form>
             </div>
         </div>

@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @Controller
 public class NewsController {
 
-    private NewsRepo newsRepo;
+    private final NewsRepo newsRepo;
     @Autowired
     public NewsController(NewsRepo newsRepo) {
         this.newsRepo = newsRepo;
@@ -33,8 +33,7 @@ public class NewsController {
     @PostMapping("/news/add")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String addNews(@ModelAttribute("newss") @Valid News news,
-                          BindingResult bindingResult,
-                          Model model){
+                          BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return "addNews";
         newsRepo.save(news);

@@ -29,8 +29,12 @@
                             </label>
                         </th:block>
                     </div>
+                    <div class="image d-flex mx-5 mt-3 mb-3 ">
+                        <img class="bg-info" src="https://i.imgur.com/wvxPV9S.png" height="170"
+                                                               width="170"/>
+                        <h2 class="name mt-3 mx-5" th:text="${username}"></h2>
+                    </div>
                 </div>
-                <h1><div class="text-center mt-2" th:text="${userName}"></div></h1>
             </div>
           <th:block th:insert="blocks/profileSame :: videos">
           </th:block>

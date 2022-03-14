@@ -1,12 +1,12 @@
 package com.example.vidT.controlls;
 
-import com.example.vidT.services.FileService;
-import com.example.vidT.services.TimerService;
-import com.example.vidT.services.UserService;
-import com.example.vidT.exceptions.NotFoundException;
 import com.example.vidT.models.User;
 import com.example.vidT.models.Video;
-import com.example.vidT.repositories.VideoRepository;
+import com.example.vidT.services.CommentService;
+import com.example.vidT.services.PostService;
+import com.example.vidT.services.implementation.CommentsServiceImpl;
+import com.example.vidT.services.implementation.TimerService;
+import com.example.vidT.services.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,37 +22,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
 
 @Controller
 public class VidController {
 
-
-    private VideoRepository videoRepository;
-    private TimerService timerService;
-    private UserService userService;
-    private FileService fileService;
-
+    private final TimerService timerService;
+    private final UserServiceImpl userService;
+    private final PostService postService;
+    private final CommentService commentsService;
 
     @Autowired
-    public VidController(VideoRepository videoRepository, TimerService timerService, UserService userService, FileService fileService) {
-        this.videoRepository = videoRepository;
+    public VidController(TimerService timerService,
+                         UserServiceImpl userService,
+                         CommentsServiceImpl commentsService,
+                         PostService postService) {
         this.timerService = timerService;
         this.userService = userService;
-        this.fileService = fileService;
+        this.commentsService = commentsService;
+        this.postService = postService;
     }
 
     @GetMapping("/all")
-    public String all(@PageableDefault(sort={ "id"},
+    public String all(@PageableDefault(sort = {"id"},
             direction = Sort.Direction.ASC) Pageable pageable,
                       Model model) {
-        Page<Video> page = videoRepository.findAll(pageable);
+        Page<Video> page = postService.getPostPage(pageable);
         model.addAttribute("videos", page);
         return "all";
     }
 
     @GetMapping("/v/add")
-    public String addv(Model model) {
+    public String addV() {
 
         return "add";
     }
@@ -61,43 +61,43 @@ public class VidController {
     public String addnew(@AuthenticationPrincipal User user,
                          @RequestParam(name = "name") String name,
                          @RequestParam(name = "textm") String content,
-                         @RequestParam("file") MultipartFile file,
+                         @RequestParam("file1") MultipartFile file1,
+                         @RequestParam("file2") MultipartFile file2,
+                         @RequestParam("file3") MultipartFile file3,
                          @RequestParam long timerDay,
                          @RequestParam long timerHour,
                          @RequestParam long timerMin, Model model)
-            throws IOException {
-        if (userService.maxCount(user) == true) {
-            Video post = new Video(name.trim(), content.trim(), user);
-            post.setTimer1((long) new Date().getTime() +
-                    (timerService.toftime(timerDay, timerHour, timerMin)));
-            post.setAdminsend(false);
-            fileService.fileLoader(file,post);
-            videoRepository.save(post);
+            throws IOException{
+        if (userService.maxCount(user)) {
+            postService.addPost(name.trim(), content.trim(), user, timerDay,
+                    timerHour, timerMin, file1, file2, file3);
             return "redirect:/all";
         } else
+            model.addAttribute("error","error");
             return "add";
     }
 
 
     @GetMapping("/all/{id}")
-    public String details(@AuthenticationPrincipal User user, @PathVariable(value = "id") long id, Model model) {
-        Video post = Optional.ofNullable(videoRepository.findById(id)).orElseThrow(NotFoundException::new);
+    public String details(@AuthenticationPrincipal User user,
+                          @PathVariable(value = "id") long id,
+                          Model model) {
+        Video post = postService.getPostById(id);
         model.addAttribute("post", post);
         timerService.timer(post, model);
         if (user != null)
             if (user.getUsername().equals(post.getAuthorName()))
                 model.addAttribute("b", "1");
+        model.addAttribute("comments", commentsService.allComments(post));
         return "details";
     }
 
     @PostMapping("/all/{id}/del")
-    public String delPost(@PathVariable(value = "id")long id, @RequestParam int currpage, Model model) {
-        Video post = videoRepository.findById(id);
-        videoRepository.delete(post);
-        if(currpage==1)
-        return "redirect:/profile/"+currpage;
-        if(currpage==2)
-            return "redirect:/profile/"+currpage;
+    public String delPost(@PathVariable(value = "id") long id,
+                          @RequestParam int currPage) {
+        postService.deletePost(id);
+        if (currPage == 2)
+            return "redirect:/profile/option";
         return "redirect:/all";
     }
 }

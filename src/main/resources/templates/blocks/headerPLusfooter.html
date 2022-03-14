@@ -12,17 +12,21 @@
             </a>
             <div class="collapse navbar-collapse flex-row-reverse" id="navbarTogglerDemo03">
             <ul class="navbar-nav p-2">
-                <li class="nav-item mx-1"><a href="/" class="nav-link">Главная</a></li>
-                <li class="nav-item mx-1"><a href="/v/add" class="nav-link ">Добавить</a></li>
-                <li class="nav-item mx-1"><a href="/all" class="nav-link ">Библиотека</a></li>
-                <li class="nav-item mx-1"><a href="/faq" class="nav-link">FAQs</a></li>
-                <li class="nav-item mx-1"><a th:href="'/profiles/'+ ${#authentication.getPrincipal().getUsername()}" sec:authorize="isAuthenticated()"
+                <li class="nav-item mx-2"><a href="/" class="nav-link">Главная</a></li>
+                <li class="nav-item mx-2"><a href="/v/add" class="nav-link ">Добавить</a></li>
+                <li class="nav-item mx-2"><a href="/all" class="nav-link ">Библиотека</a></li>
+                <li class="nav-item mx-2"><a href="/faq" class="nav-link">FAQs</a></li>
+                <li class="nav-item mx-2"><a th:href="'/profiles/'+ ${#authentication.getPrincipal().getUsername()}" sec:authorize="isAuthenticated()"
                                         class="nav-link text-truncate text-muted ml-1"
                                         style="max-width: 100px;">
                     <th:block sec:authentication="name"/>
                 </a></li>
                 <th:block sec:authorize="isAuthenticated()">
-                    <li class="nav-item mx-2"><a th:href="@{/logout}" class="btn btn-primary">Выйти</a></li>
+                    <li class="nav-item mx-2">
+                        <form th:action="@{/logout}" th:method="post">
+                        <button class="btn btn-primary">Выйти</button>
+                        </form>
+                    </li>
                 </th:block>
                 <th:block sec:authorize="!isAuthenticated()">
                     <li class="nav-item mx-2"><a th:href="@{/login}" class="btn btn-outline-primary">Войти</a></li>

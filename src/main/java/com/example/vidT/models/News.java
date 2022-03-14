@@ -8,8 +8,10 @@ public class News {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long newsId;
     @Size(min = 1)
+    @Column(name = "news")
     private String news;
     @Size(min = 1)
+    @Column(name = "content")
     private String content;
 
     public News() {

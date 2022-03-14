@@ -6,19 +6,14 @@ $(function (){
         })
 
         $(".nav-link").mouseenter(function () {
-            $(this).animate({
-                opacity: 0.4, // прозрачность элемента
-            }, 500,"linear", function () {
+            jQuery(this).css('opacity', '0.2');
                 $(this).addClass("underline");	// изменяем текстовое содержимое нашему блоку и указываем цвет текста
-            });
         });
         $(".nav-link").mouseleave(function () {
-            $(this).animate({
-                opacity: 1, // прозрачность элемента
-            }, 0, "linear", function () {
+            jQuery(this).css('opacity', '1');
+
                 $(this).removeClass("underline");
                 // изменяем текстовое содержимое нашему блоку и указываем цвет текста
-            });
         });
 
 });

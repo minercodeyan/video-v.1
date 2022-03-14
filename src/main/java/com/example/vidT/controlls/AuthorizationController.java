@@ -1,8 +1,9 @@
 package com.example.vidT.controlls;
 
 import com.example.vidT.CodeGenerator;
-import com.example.vidT.services.EmailSenderService;
 import com.example.vidT.services.UserService;
+import com.example.vidT.services.implementation.EmailSenderService;
+import com.example.vidT.services.implementation.UserServiceImpl;
 import com.example.vidT.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,21 +23,29 @@ import javax.validation.Valid;
 @Controller
 public class AuthorizationController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public void initBinder(WebDataBinder dataBinder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    private UserService userService;
-    private EmailSenderService service;
+    private final UserService userService;
+    private final EmailSenderService service;
 
     @Autowired
     public AuthorizationController(UserService userService, EmailSenderService service) {
         this.userService = userService;
         this.service = service;
     }
+
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+
+
+
 
     @GetMapping("/reg")
     public String reg(User user,Model model) {
@@ -65,7 +74,7 @@ public class AuthorizationController {
             }
         }
         String code = CodeGenerator.generate();
-        service.sendSimpleEmail(user.getEmail(),code, "confirm");//spring uniccode
+        service.sendSimpleEmail(user.getEmail(), code, "confirm");//spring uniccode
         System.out.println(2);
         mod.addAttribute("secret", code);
         mod.addAttribute("userId", user.getId());

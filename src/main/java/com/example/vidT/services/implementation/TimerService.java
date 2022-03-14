@@ -1,4 +1,4 @@
-package com.example.vidT.services;
+package com.example.vidT.services.implementation;
 
 import com.example.vidT.models.Video;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import java.util.Date;
 
 @Service
 public class TimerService {
-    private static long milsinmin = 60000;
-    private static long milsinhour = 3600000;
-    private static long milsinday = 86400000;
 
 
     public long toftime(long d, long h, long m) {
-        long allt;
-        allt = d * milsinday + h * milsinhour + m * milsinmin;
-        return allt;
+        long allT;
+        long milsInMin = 60000;
+        long milsInHour = 3600000;
+        long milsInDay = 86400000;
+        allT = d * milsInDay + h * milsInHour + m * milsInMin;
+        return allT;
     }
 
 

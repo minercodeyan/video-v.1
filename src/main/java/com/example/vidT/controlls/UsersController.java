@@ -1,6 +1,7 @@
 package com.example.vidT.controlls;
 
 import com.example.vidT.services.UserService;
+import com.example.vidT.services.implementation.UserServiceImpl;
 import com.example.vidT.models.Role;
 import com.example.vidT.models.User;
 import com.example.vidT.repositories.UserRepo;
@@ -18,12 +19,12 @@ import java.util.Map;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UsersController {
 
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public UsersController(UserRepo userRepo, UserService userService) {
+    public UsersController(UserRepo userRepo, UserServiceImpl userService) {
         this.userRepo = userRepo;
         this.userService = userService;
     }
@@ -46,32 +47,30 @@ public class UsersController {
     public String userEdit(@RequestParam String username,
                            @RequestParam Map<String, String> form,
                            @RequestParam("userId") User user, Model model) {
-        User userFromDb = userRepo.findByUsername(username);
-        if (userFromDb != null&&username.equals(user.getUsername())==true) {
+        User userFromDb = userRepo.findByUsername(username).orElse(null);
+        if (userFromDb != null && !username.equals(user.getUsername())) {
             model.addAttribute("err", "такое имя уже есть")
                     .addAttribute("user", user)
                     .addAttribute("roles", Role.values());
             return "userEdit";
         }
+        else{
         userService.editUser(username,user,form);
         return "redirect:/user";
+        }
     }
-
-
 
 
 
     @PostMapping("/block")
     public String userBlock(@RequestParam("userId") User user){
-        user.setActive(false);
-        userRepo.save(user);
+        userService.blockUser(user);
         return "redirect:/user/"+user.getId();
     }
 
 
     @PostMapping("/mail/{userid}")
-    public String sendmail(@PathVariable(value = "userid") User user,
-                           Model model) {
+    public String sendmail(@PathVariable(value = "userid") User user) {
         userService.sendMailsForUser(user);
         return "redirect:/user";
     }

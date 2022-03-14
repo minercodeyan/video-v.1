@@ -1,0 +1,29 @@
+<th:block th:fragment="videos" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="col-sm-6">
+        <div class="container">
+            <div class="alert alert-info">kiki</div>
+            <div class="row">
+                <th:block th:each="el : ${videos}">
+                    <div class="col-sm-6">
+                        <div class="alert alert-info">
+                            <div class=" text-center"><h3 th:text="${el.name}"/></div>
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="p-2"><a class="btn btn-info"
+                                                    th:href="'/all/'+${el.id}+'?currPage='+${currPage}">прочитать</a>
+                                </div>
+                                <div class="p-2">
+                                    <th:block th:if="${currPage}==2">
+                                        <form th:action="'/all/'+ ${el.id} + '/del'" method="post">
+                                            <button type="submit" class="btn btn-info">Удалить</button>
+                                            <input type="hidden" name="currPage" th:value="${currPage}"/>
+                                        </form>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</th:block>

@@ -22,18 +22,21 @@ public class User implements UserDetails {
 
     @Size(min = 3, max = 30, message = "минимум 3 символа")
     @Pattern(regexp = "[\\da-zA-Z]+", message = "неккоректный логин")
+    @Column(name = "username")
     private String username;
 
     @Size(min = 6, max = 40, message = "минимум 6 символов")
     @Pattern(regexp = "[\\da-zA-Z]+", message = "неккоректный пароль")
+    @Column(name = "password")
     private String password;
 
     @NotBlank(message = "не может быть пустым")
     @Email(message = "некорректный email")
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
     @Transient
     private String password2;
+    @Column(name = "active")
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -142,7 +145,6 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 
 
     @Override

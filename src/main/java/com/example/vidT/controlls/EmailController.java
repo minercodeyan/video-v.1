@@ -1,7 +1,6 @@
 package com.example.vidT.controlls;
 
-import com.example.vidT.models.User;
-import com.example.vidT.repositories.UserRepo;
+import com.example.vidT.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +10,11 @@ import org.springframework.web.bind.annotation.*;
 public class EmailController {
 
 
-
-    private final UserRepo userRepo;
+    private final UserService userService;
 
     @Autowired
-    public EmailController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public EmailController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping(value = "/activateUser")
@@ -24,9 +22,7 @@ public class EmailController {
                                @RequestParam String secret,
                                @RequestParam Long userId, Model model) {
         if (uni.equals(secret)) {
-            User user = userRepo.getById(userId);
-            user.setActive(true);
-            userRepo.save(user);
+            userService.makeUserActive(userId);
             return "redirect:/login";
         } else {
             model.addAttribute("massage", "код не верен")

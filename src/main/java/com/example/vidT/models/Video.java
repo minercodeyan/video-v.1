@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 
 @Entity
@@ -25,15 +26,29 @@ public class Video {
     @JoinColumn(name = "user_id")
     private User author;
 
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Comment> comments;
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<FileMy> fileMIES;
+
     private String filename;
 
     public Video() {
     }
 
+
     public Video(String name, String textm, User user) {
         this.name = name;
         this.textm = textm;
         this.author = user;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getAuthorName() {
@@ -84,8 +99,16 @@ public class Video {
         return name;
     }
 
-    public void setName(String Name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<FileMy> getFileMIES() {
+        return fileMIES;
+    }
+
+    public void setFileMIES(Set<FileMy> fileMIES) {
+        this.fileMIES = fileMIES;
     }
 
     public String getFilename() {
